@@ -1,0 +1,139 @@
+html, body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  flex-grow: 1;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  display: flex;
+}
+
+.projects {
+  float: left;
+  width: 30%;
+  background-color: white;
+}
+.task {
+  background-color: #7c867c3d;
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.projectItem {
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    color: #8d9194a2;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 10px;
+}
+
+.projectSize{
+  float: right;
+  font-weight: bold;
+  vertical-align: 5px;
+  margin-right: 10px;
+}
+
+.label {
+  font-weight: bold; 
+  color:#777;
+  display:flex;
+  margin-left: 20%;
+}
+
+.buttonsContainer {
+  text-align: center;
+  margin: 10px 10px;
+}
+
+.taskEdit {
+  margin-top: 10px;
+  margin-left: 20%;
+  width:250px;
+}
+
+.projectSelect {
+  margin-left: 40%;
+  border: none;
+}
+
+.projectItems {
+  margin-left: 10px;
+  font: italic bold 11px/15px cursive;
+  color:#232046;
+}
+
+.taskEdit::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #4d4a4a5e;
+  opacity: 1; /* Firefox */
+}
+
+.taskEdit:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #4d4a4a5e;
+}
+
+.taskEdit::-ms-input-placeholder { /* Microsoft Edge */
+  color:#4d4a4a5e;
+}
+
+.fancy {
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  min-height: 25px;
+  color:white;
+  font-weight: bold;
+  margin: 5px;
+}
+
+.not-fancy {
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  min-height: 25px;
+  margin: 5px;
+}
+
+.not-fancy:hover{
+  background-color: red;
+  color:white;
+  font-weight: bold;
+}
