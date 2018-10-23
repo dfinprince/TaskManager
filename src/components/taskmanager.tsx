@@ -14,6 +14,7 @@ interface InternalState {
     projects: string[];
     selectedProject: string;
     todoItem: string;
+    taskEdit: string;
 }
 
 function getProjects(keyword: string): string[] {
@@ -30,9 +31,7 @@ function getProjectsAsync(keyword: string): Promise<string[]> {
 
 type TaskManagerState = CommonState & InternalState;
 export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
-    emptyTask: Task;
     placeholder: string = 'eg: Pickup package from Fedex #personal';
-    taskEdit: HTMLInputElement | null;
 
     constructor(props: TaskProps) {
         super(props);
@@ -44,33 +43,12 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
             addingTask: false,
             projects: [],
             selectedProject: '',
-            todoItem: ''
+            todoItem: '',
+            taskEdit: ''
         });
-        // this.setState({ addingTask: false, tasks: [] });
-    }
-
-    clone(): Task {
-        return JSON.parse(JSON.stringify(this.emptyTask));
-    }
-
-    addNewTask(): void {
-        // const tasks = this.state.tasks.concat(this.clone());
-        this.setState({
-            addingTask: false
-        });
-
-        this.props.addTask(this.emptyTask);
     }
 
     addTask(): void {
-        const id = store.getState().taskSettings.tasks.length + 1;
-        //  const id: number = this.state && this.state.tasks ? this.state.tasks.length + 1 : 1;
-        this.emptyTask = {
-            id: id,
-            name: '',
-            todo: []
-        };
-
         this.setState({ addingTask: true });
     }
 
@@ -91,14 +69,11 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
         };
 
         this.props.addTask(task);
-        if (this.taskEdit) {
-            this.taskEdit.value = '';
-        }
-
-        this.setState({ projects: [], todoItem: '' });
+        this.setState({ projects: [], todoItem: '', taskEdit: '', selectedProject: '' });
     }
 
     setTask(keyword: string): void {
+        this.setState({ taskEdit: keyword }); 
         const n = keyword.lastIndexOf('#');
         if (n > -1) {
             const search = keyword.substring(n + 1);
@@ -114,7 +89,7 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
         const options = this.state.projects;
         return (
             <div>
-                <select className="projectSelect" value={this.state.selectedProject}
+                <select className="projectSelect" defaultValue={'Select Project'}  value={this.state.selectedProject}
                     onChange={e => this.onSelectChange(e.target.value)}>
                     <option disabled={true} value="">Select Project</option>
                     {options.map(o => {
@@ -135,7 +110,7 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
                         max={30}
                         placeholder={this.placeholder}
                         onChange={(e) => { this.setTask(e.target.value); }}
-                        ref={t => this.taskEdit = t}
+                        value={this.state.taskEdit}
                     />
                     {
                         this.state && this.state.projects &&
