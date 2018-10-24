@@ -49,11 +49,18 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
     }
 
     addTask(): void {
+        const id = store.getState().taskSettings.tasks.length + 1;
+        // tslint:disable-next-line:no-console
+        console.log(id);
         this.setState({ addingTask: true });
     }
 
     cancelTask(): void {
-        this.setState({ addingTask: false });
+        this.setState({
+            addingTask: false,
+            projects: [], todoItem: '', 
+            taskEdit: '', selectedProject: ''
+        });
     }
 
     // Set the value when project selection changes.
@@ -73,7 +80,7 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
     }
 
     setTask(keyword: string): void {
-        this.setState({ taskEdit: keyword }); 
+        this.setState({ taskEdit: keyword });
         const n = keyword.lastIndexOf('#');
         if (n > -1) {
             const search = keyword.substring(n + 1);
@@ -89,7 +96,7 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
         const options = this.state.projects;
         return (
             <div>
-                <select className="projectSelect" defaultValue={'Select Project'}  value={this.state.selectedProject}
+                <select className="projectSelect" defaultValue={'Select Project'} value={this.state.selectedProject}
                     onChange={e => this.onSelectChange(e.target.value)}>
                     <option disabled={true} value="">Select Project</option>
                     {options.map(o => {
@@ -123,31 +130,14 @@ export class TaskManager extends React.Component<TaskProps, TaskManagerState> {
 
     render() {
         return (
-            <div className="container">
-                <div className="projects">
-                    <h4>Projects</h4>
-                    {
-                        Array.isArray(this.props.tasks) &&
-                        this.props.tasks.map((s, i) => {
-                            return (<div className="projectItem" key={s.name}>
-                                {s.name}
-                                <span className="projectSize">{s.todo.length}</span>
-                                {
-                                    s.todo.map((t, j) => <div className="projectItems" key={t}><span>{t}</span></div>)
-                                }
-                            </div>);
-                        })
-                    }
-                </div>
-                <div className="task">
-                    <h3>Click the button to add a new task</h3>
-                    {
-                        this.state && this.state.addingTask && this.editTask()
-                    }
-                    <div className="buttonsContainer">
-                        <button className="fancy" onClick={() => this.addTask()}>Add Task</button>
-                        <button className="not-fancy" onClick={() => this.cancelTask()}>Cancel</button>
-                    </div>
+            <div className="task">
+                <h3>Click the button to add a new task</h3>
+                {
+                    this.state && this.state.addingTask && this.editTask()
+                }
+                <div className="buttonsContainer">
+                    <button className="fancy" onClick={() => this.addTask()}>Add Task</button>
+                    <button className="not-fancy" onClick={() => this.cancelTask()}>Cancel</button>
                 </div>
             </div>
         );

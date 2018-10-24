@@ -30,11 +30,13 @@ export const reducer: Reducer<CommonState> =
  (state: CommonState, action: actions.KnownAction): CommonState => {
     switch (action.type) {
         case actions.TASK_ADDED: {
-            const task = state.tasks.find(t => t.name === action.task.name);
+            const tasks = [...state.tasks];
+            const task = tasks.find(t => t.name === action.task.name);
             if (task) {
                 task.todo = [...task.todo, ...action.task.todo];
             }
-            return state;
+            const newState = {...state, tasks};
+            return newState;
         }
         case actions.TASK_SELECTED: {
             return { ...state, selectTask: action.task };
